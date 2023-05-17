@@ -79,7 +79,7 @@ const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [formValues, setFormValues] = useState(initialState);
     const dispatch=useDispatch();
-    const getCurrentUser=useSelector((state)=>state.nextflix.currentUser)
+    // const getCurrentUser=useSelector((state)=>state.nextflix.currentUser)
 
     const FormHandler = (e) => {
         setFormValues({
@@ -89,22 +89,22 @@ const Signup = () => {
     }
 
     const handleSignIn = async () => {
-        try {
-            const { email, password } = formValues;
-            dispatch(createUser(email,password))
+        // try {
+        //     const { email, password } = formValues;
+        //     dispatch(createUser(email,password))
             
-        } catch (error) {
-            console.log(error);
-        }
+        // } catch (error) {
+        //     console.log(error);
+        // }
     };
  
 
 
-    useEffect(()=>{
-        if(getCurrentUser){
-           navigate("/"); 
-        }
-    },[])
+    // useEffect(()=>{
+    //     if(getCurrentUser){
+    //        navigate("/"); 
+    //     }
+    // },[])
 
 
     return (
