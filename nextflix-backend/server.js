@@ -13,6 +13,11 @@ app.get('*', (req, res) => {
 const DB = "mongodb+srv://sayanmaity631:gdcgdufuB7GdUS0i@cluster0.0muzrkn.mongodb.net/netflix?retryWrites=true&w=majority";
 mongoose.connect(DB)
 
+app.use((req,res,next)=>{
+ res.header('Access-Control-Allow-Origin', '*');
+ next();
+})
+
 
 app.use("/api/user", userRoutes);
 
