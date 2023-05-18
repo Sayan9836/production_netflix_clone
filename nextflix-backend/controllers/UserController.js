@@ -33,6 +33,7 @@ module.exports.LogUser = async (req, res) => {
           if (err) {
             res.send({ err: "error from backend" })
           }
+          res.setHeader('Content-Type', 'application/json');
           res.send({ user,token });
         })
       }else{
