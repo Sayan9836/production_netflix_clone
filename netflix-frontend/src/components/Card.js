@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import video from "../assests/video.mp4";
 import { IoPlayCircleSharp } from "react-icons/io5";
 import { RiThumbDownFill, RiThumbUpLine } from "react-icons/ri";
 import { BsCheck } from "react-icons/bs";
@@ -104,7 +103,7 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
   const addToList = async () => {
     toast.success("Item Added successfully")
     try {
-      await axios.post("https://netflix-clone002.onrender.com/api/user/add", {
+      await axios.post("http://localhost:5000/api/user/add", {
         email,
         data: movieData,
       });
@@ -133,13 +132,6 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
             <img
               src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
               alt="indivitual-card"
-              onClick={() => navigate("/player")}
-            />
-            <video
-              src={video}
-              autoPlay={true}
-              loop
-              muted
               onClick={() => navigate("/player")}
             />
           </div>

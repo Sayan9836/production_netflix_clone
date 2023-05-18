@@ -1,6 +1,7 @@
 const User = require("../models/UserModel");
 const JWT = require("jsonwebtoken");
 const jwtKey = 'e.com'
+
 module.exports.createUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -12,6 +13,7 @@ module.exports.createUser = async (req, res) => {
       if (err) {
         res.send({ err: "error from backend" })
       }
+      console.log(result);
       res.send({ result, token });
     })
 

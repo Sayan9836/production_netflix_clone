@@ -4,8 +4,6 @@ import BackgroundImage from '../components/BackgroundImage';
 import Header from '../components/Header';
 
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { createUser } from '../store';
 
 const Container = styled.div`
   position:relative;
@@ -72,14 +70,13 @@ const Container = styled.div`
 const Signup = () => {
 
     const navigate=useNavigate();
+    
     const initialState = {
         email: "",
         password: "",
     }
     const [showPassword, setShowPassword] = useState(false);
     const [formValues, setFormValues] = useState(initialState);
-    const dispatch=useDispatch();
-    // const getCurrentUser=useSelector((state)=>state.nextflix.currentUser)
 
     const FormHandler = (e) => {
         setFormValues({
@@ -89,22 +86,30 @@ const Signup = () => {
     }
 
     const handleSignIn = async () => {
-        // try {
-        //     const { email, password } = formValues;
-        //     dispatch(createUser(email,password))
-            
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        try {
+            const { email, password } = formValues;
+      
+            let result = await fetch('http://localhost:5000/api/user/register', {
+              method: 'post',
+              body: JSON.stringify({ email, password }),
+              headers: {
+                'content-Type': 'application/json'
+              }
+            });
+            result = await result.json();
+      
+            if (result) {
+              localStorage.setItem('user', JSON.stringify(result.result));
+              navigate("/");
+            } else {
+              alert("please enter correct details")
+            }
+      
+          } catch (error) {
+            console.log(error);
+          }
     };
  
-
-
-    // useEffect(()=>{
-    //     if(getCurrentUser){
-    //        navigate("/"); 
-    //     }
-    // },[])
 
 
     return (

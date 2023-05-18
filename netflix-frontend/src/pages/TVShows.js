@@ -27,13 +27,13 @@ const TVShows = () => {
       navigate("/login")
     }
     dispatch(getGenres())
-  }, [])
+  }, [navigate,dispatch])
 
   useEffect(() => {
     if (generesLoaded) {
       dispatch(getMovies({ type: "tv" }));
     }
-  }, [generesLoaded])
+  }, [generesLoaded,dispatch])
 
   window.onscroll = () => {
     setIsScrolled(window.scrollY === 0 ? false : true);

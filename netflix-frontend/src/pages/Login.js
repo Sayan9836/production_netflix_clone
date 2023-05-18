@@ -74,7 +74,7 @@ const Login = () => {
     try {
       const { email, password } = formValues;
 
-      let result = await fetch('https://netflix-clone002.onrender.com/api/user/login', {
+      let result = await fetch('http://localhost:5000/api/user/login', {
         method: 'post',
         body: JSON.stringify({ email, password }),
         headers: {

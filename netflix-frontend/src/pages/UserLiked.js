@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { json, useNavigate } from 'react-router-dom';
-import { getGenres, getMovies, getUserLikedMovies } from '../store';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../utils/firebase';
+import {useNavigate } from 'react-router-dom';
+import {getUserLikedMovies } from '../store';
+
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
-import Slider from '../components/Slider';
-import NotAvailable from '../components/NotAvailable';
-import SelectGenre from '../components/SelectGenre';
 import Card from '../components/Card';
 import Spinner from '../components/Spinner';
 
@@ -33,14 +29,14 @@ const UserLiked = () => {
             }
         }, 2000);
 
-    }, [])
+    }, [navigate])
 
     useEffect(() => {
         console.log("from user liked",email);
         if (email) {
             dispatch(getUserLikedMovies(email))
         }
-    }, [email])
+    }, [email,dispatch])
 
     if (loading) {
 
