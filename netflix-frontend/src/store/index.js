@@ -71,18 +71,18 @@ export const fetchDataByGenre = createAsyncThunk("netflix/moviesByGenres", async
 })
 
 export const createUser = createAsyncThunk("netflix/createUser", async (email, password) => {
-    await axios.post(`http://localhost:5000/api/user/register`, { email, password });
+    await axios.post(`https://neflix-backend.onrender.com/api/user/register`, { email, password });
 })
 
 
 export const getUserLikedMovies = createAsyncThunk("netflix/getLiked", async (email) => {
-    const { data: { movies } } = await axios.get(`http://localhost:5000/api/user/liked/${email}`);
+    const { data: { movies } } = await axios.get(`https://neflix-backend.onrender.com/api/user/liked/${email}`);
     return movies;
 })
 
 
 export const removeFromLikedMovies = createAsyncThunk("netflix/removeLiked", async ({ email, movieId }) => {
-    const { data: { movies } } = await axios.put(`http://localhost:5000/api/user/remove`, {
+    const { data: { movies } } = await axios.put(`https://neflix-backend.onrender.com/api/user/remove`, {
         email, movieId
     });
     return movies;

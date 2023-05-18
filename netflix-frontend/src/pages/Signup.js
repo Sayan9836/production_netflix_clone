@@ -89,7 +89,7 @@ const Signup = () => {
         try {
             const { email, password } = formValues;
       
-            let result = await fetch('http://localhost:5000/api/user/register', {
+            let result = await fetch('https://neflix-backend.onrender.com/api/user/register', {
               method: 'post',
               body: JSON.stringify({ email, password }),
               headers: {

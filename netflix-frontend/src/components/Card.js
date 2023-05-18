@@ -103,7 +103,7 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
   const addToList = async () => {
     toast.success("Item Added successfully")
     try {
-      await axios.post("http://localhost:5000/api/user/add", {
+      await axios.post("https://neflix-backend.onrender.com/api/user/add", {
         email,
         data: movieData,
       });
