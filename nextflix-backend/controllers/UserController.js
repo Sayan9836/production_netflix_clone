@@ -33,13 +33,8 @@ module.exports.LogUser = async (req, res) => {
             return res.status(500).send({ error: "Error signing JWT" });
           }
           res.setHeader('Content-Type', 'application/json');
-          const user = {
-            email: "sayanmaity631@gmail.com",
-            likedMovies: [{ hello }],
-            _id: "6465e782c4d14b2788f0e404",
-          }
 
-          res.status(200).send({user:user});
+          res.status(200).send({user,token});
         });
       }
     } else {
