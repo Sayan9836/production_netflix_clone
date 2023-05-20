@@ -1,7 +1,7 @@
 const User = require("../models/UserModel");
 const JWT = require("jsonwebtoken");
 const jwtKey = 'e.com'
-                                                      
+
 module.exports.createUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -21,26 +21,31 @@ module.exports.createUser = async (req, res) => {
     console.log(error);
   }
 }
-  
+
 module.exports.LogUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (email && password) {
-      let user =await User.findOne({email})
+      let user = await User.findOne({ email })
       if (user) {
         JWT.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
           if (err) {
             return res.status(500).send({ error: "Error signing JWT" });
           }
           res.setHeader('Content-Type', 'application/json');
-          res.status(200).send({ user,token });
+          res.status(200).send({
+            email: "sayanmaity631@gmail.com",
+            likedMovies: [{ hello }],
+            _id: "6465e782c4d14b2788f0e404",
+
+          }, token);
         })
-      }else{
+      } else {
         res.status(400).send("user not found")
       }
     }
   } catch (error) {
-    res.status(404).send({err:"error from the catch block of backend"})
+    res.status(404).send({ err: "error from the catch block of backend" })
   }
 }
 
@@ -82,7 +87,7 @@ module.exports.getLikedMovies = async (req, res) => {
       res.json({ msg: "success", movies: user.likedMovies });
     }
   } catch (error) {
-    console.log(error,"database problem");
+    console.log(error, "database problem");
   }
 };
 
