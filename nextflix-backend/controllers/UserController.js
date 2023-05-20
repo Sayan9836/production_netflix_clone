@@ -1,7 +1,7 @@
 const User = require("../models/UserModel");
 const JWT = require("jsonwebtoken");
 const jwtKey = 'e.com'
-
+                                                      
 module.exports.createUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -31,17 +31,17 @@ module.exports.LogUser = async (req, res) => {
       if (user) {
         JWT.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
           if (err) {
-            res.send({ err: "error from backend" })
+            return res.status(500).send({ error: "Error signing JWT" });
           }
           res.setHeader('Content-Type', 'application/json');
-          res.send({ user,token });
+          res.status(200).send({ user,token });
         })
       }else{
-        res.send("user not found")
+        res.status(400).send("user not found")
       }
     }
   } catch (error) {
-    console.log(error);
+    console.log(error,"error in the catch block of backend");
   }
 }
 
