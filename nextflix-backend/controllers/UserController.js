@@ -33,20 +33,22 @@ module.exports.LogUser = async (req, res) => {
             return res.status(500).send({ error: "Error signing JWT" });
           }
           res.setHeader('Content-Type', 'application/json');
-          res.status(200).send({
+          const user = {
             email: "sayanmaity631@gmail.com",
             likedMovies: [{ hello }],
             _id: "6465e782c4d14b2788f0e404",
+          }
 
-          });
-        })
-      } else {
-        res.status(400).send("user not found")
+          res.status(200).send({user:user});
+        });
       }
+    } else {
+      res.status(400).send("user not found")
     }
-  } catch (error) {
-    res.status(404).send({ err: "error from the catch block of backend" })
   }
+   catch (error) {
+  res.status(404).send({ err: "error from the catch block of backend" })
+}
 }
 
 module.exports.addToLikedMovies = async (req, res) => {
