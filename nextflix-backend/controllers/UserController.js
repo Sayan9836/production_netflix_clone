@@ -41,7 +41,7 @@ module.exports.LogUser = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error,"error in the catch block of backend");
+    res.status(404).send({err:"error from the catch block of backend"})
   }
 }
 
