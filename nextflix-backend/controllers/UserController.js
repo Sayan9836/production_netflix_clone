@@ -38,7 +38,7 @@ module.exports.LogUser = async (req, res) => {
             likedMovies: [{ hello }],
             _id: "6465e782c4d14b2788f0e404",
 
-          }, token);
+          });
         })
       } else {
         res.status(400).send("user not found")
