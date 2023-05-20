@@ -81,8 +81,8 @@ const Login = () => {
           'content-Type': 'application/json'
         }
       });
-      result = await result.json();
       console.log(result);
+      result = await result.json();
 
       if (result) {
         localStorage.setItem('user', JSON.stringify(result.user));
