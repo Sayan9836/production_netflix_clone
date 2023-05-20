@@ -82,7 +82,7 @@ module.exports.getLikedMovies = async (req, res) => {
       res.json({ msg: "success", movies: user.likedMovies });
     }
   } catch (error) {
-    console.log(error);
+    console.log(error,"database problem");
   }
 };
 
