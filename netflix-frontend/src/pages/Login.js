@@ -83,9 +83,6 @@ const Login = () => {
       });
       result = await result.json();
       console.log(result);
-      if (!result) {
-        navigate("/");
-      }
 
       if (result) {
         localStorage.setItem('user', JSON.stringify(result.user));
@@ -95,7 +92,7 @@ const Login = () => {
       }
 
     } catch (error) {
-      console.log(error);
+      console.log(error,"error from frontend");
     }
   };
 
