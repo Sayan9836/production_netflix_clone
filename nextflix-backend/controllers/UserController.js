@@ -21,8 +21,7 @@ module.exports.createUser = async (req, res) => {
     console.log(error);
   }
 }
-
-
+  
 module.exports.LogUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -65,6 +64,7 @@ module.exports.addToLikedMovies = async (req, res) => {
           }
         );
       } else {
+        res.setHeader('Content-Type', 'application/json');
         return res.json({ msg: "Movie already added to likedMovies" });
       }
     }
@@ -78,6 +78,7 @@ module.exports.getLikedMovies = async (req, res) => {
     const { email } = req.params;
     const user = await User.findOne({ email });
     if (user) {
+      res.setHeader('Content-Type', 'application/json');
       res.json({ msg: "success", movies: user.likedMovies });
     }
   } catch (error) {
@@ -103,6 +104,7 @@ module.exports.removeFromLikedMovies = async (req, res) => {
         },
         { new: true }
       );
+      res.setHeader('Content-Type', 'application/json');
       return res.json({ msg: "deleted", movies });
     }
   } catch (error) {
