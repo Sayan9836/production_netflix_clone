@@ -43,7 +43,7 @@ const getRawData = async (api, genres, pagging) => {
         createArrayFromRawData(results, moviesArray, genres);
 
     }
-    return moviesArray;
+    return moviesArray;    
 }
 
 export const getGenres = createAsyncThunk("netflix/genres", async () => {
