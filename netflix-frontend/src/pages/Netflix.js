@@ -18,13 +18,13 @@ const Netflix = () => {
 
 
 
-  useEffect(() => {
-    const user=localStorage.getItem('user');
-    if(!user){
-     navigate("/login");
-    }
-    dispatch(getGenres())
-  }, [])
+  // useEffect(() => {
+  //   const user=localStorage.getItem('user');
+  //   if(!user){
+  //    navigate("/login");
+  //   }
+  //   dispatch(getGenres())
+  // }, [])
 
   useEffect(() => {
     if (generesLoaded) {
