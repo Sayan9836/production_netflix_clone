@@ -103,7 +103,7 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
   const addToList = async () => {
     toast.success("Item Added successfully")
     try {
-      await axios.post("https://neflix-backend.onrender.com/api/user/add", {
+      await axios.post(process.env.REACT_APP_ADD_URL, {
         email,
         data: movieData,
       });
@@ -134,6 +134,7 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
               alt="indivitual-card"
               onClick={() => navigate("/player")}
             />
+            <p>{process.env.REACT_APP_LIKE_URL}</p>
           </div>
           <div className="info-container flex column">
             <h3 className="name" onClick={() => navigate("/player")}>

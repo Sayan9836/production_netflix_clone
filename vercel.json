@@ -1,0 +1,24 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "nextflix-backend/**",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "netflix-frontend/build/**",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/.*",
+        "dest": "nextflix-backend/server.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "netflix-frontend/build/index.html"
+      }
+    ]
+  }
+  

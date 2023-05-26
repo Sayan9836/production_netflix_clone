@@ -1,5 +1,6 @@
 import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_KEY, TMDB_BASE_URL } from "../utils/constant";
+
 import axios from "axios";
 
 
@@ -10,8 +11,6 @@ const initialState = {
     movies: [],
     generesLoaded: false,
     genres: [],
-    // movieDetail:{},
-
 };
 
 const createArrayFromRawData = (array, moviesArray, genres) => {
@@ -70,19 +69,18 @@ export const fetchDataByGenre = createAsyncThunk("netflix/moviesByGenres", async
 
 })
 
-export const createUser = createAsyncThunk("netflix/createUser", async (email, password) => {
-    await axios.post(`https://neflix-backend.onrender.com/api/user/register`, { email, password });
-})
 
+const currentUser=process.env.REACT_APP_LIKE_URL
 
 export const getUserLikedMovies = createAsyncThunk("netflix/getLiked", async (email) => {
-    const { data: { movies } } = await axios.get(`https://neflix-backend.onrender.com/api/user/liked/${email}`);
+    const { data: { movies } } = await axios.get(`${currentUser}/${email}`);
+    console.log(movies);
     return movies;
 })
 
 
 export const removeFromLikedMovies = createAsyncThunk("netflix/removeLiked", async ({ email, movieId }) => {
-    const { data: { movies } } = await axios.put(`https://neflix-backend.onrender.com/api/user/remove`, {
+    const { data: { movies } } = await axios.put(process.env.REACT_APP_DEL_URL, {
         email, movieId
     });
     return movies;

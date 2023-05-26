@@ -12,11 +12,9 @@ const UserLiked = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const movies = useSelector((state) => state.netflix.movies)
-
-
 
     useEffect(() => {
         setTimeout(() => {
@@ -29,15 +27,15 @@ const UserLiked = () => {
             }
         }, 2000);
 
-    }, [navigate])
+    }, [])
 
     useEffect(() => {
         console.log("from user liked",email);
         if (email) {
             dispatch(getUserLikedMovies(email))
         }
-    }, [email,dispatch])
-
+    }, [email])
+    
     if (loading) {
 
         return <Spinner />
