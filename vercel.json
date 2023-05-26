@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "nextflix-backend/**",
+        "src": "nextflix-backend/**/*.js",
         "use": "@vercel/node"
       },
       {
