@@ -70,17 +70,17 @@ export const fetchDataByGenre = createAsyncThunk("netflix/moviesByGenres", async
 })
 
 
-const currentUser=process.env.REACT_APP_LIKE_URL
+const BaseUrl=process.env.REACT_APP_BASE_URL
 
 export const getUserLikedMovies = createAsyncThunk("netflix/getLiked", async (email) => {
-    const { data: { movies } } = await axios.get(`${currentUser}/${email}`);
+    const { data: { movies } } = await axios.get(`${BaseUrl}/liked/${email}`);
     console.log(movies);
     return movies;
 })
 
 
 export const removeFromLikedMovies = createAsyncThunk("netflix/removeLiked", async ({ email, movieId }) => {
-    const { data: { movies } } = await axios.put(process.env.REACT_APP_DEL_URL, {
+    const { data: { movies } } = await axios.put(`${BaseUrl}/remove`, {
         email, movieId
     });
     return movies;

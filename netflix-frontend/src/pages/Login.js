@@ -75,7 +75,7 @@ const Login = () => {
     try {
       const { email, password } = formValues;
                                                                                                      
-      let result = await fetch(process.env.REACT_APP_LOG_URL, {
+      let result = await fetch(process.env.REACT_APP_BASE_URL`/login`, {
         method: 'post',
         body: JSON.stringify({ email, password }),
         headers: {

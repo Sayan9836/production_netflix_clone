@@ -103,7 +103,7 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
   const addToList = async () => {
     toast.success("Item Added successfully")
     try {
-      await axios.post(process.env.REACT_APP_ADD_URL, {
+      await axios.post(process.env.REACT_APP_BASE_URL`/add`, {
         email,
         data: movieData,
       });
