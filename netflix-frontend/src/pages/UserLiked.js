@@ -36,10 +36,10 @@ const UserLiked = () => {
         }
     }, [email])
     
-    if (loading) {
+    // if (loading) {
 
-        return <Spinner />
-    }
+    //     return <Spinner />
+    // }
 
     window.onscroll = () => {
         setIsScrolled(window.scrollY === 0 ? false : true);

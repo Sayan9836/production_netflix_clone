@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "nextflix-backend/**/*.js",
+        "src": "netflix-backend/**/*.js",
         "use": "@vercel/node"
       },
       {
@@ -13,7 +13,7 @@
     "routes": [
       {
         "src": "/api/user.*",
-        "dest": "nextflix-backend/server.js"
+        "dest": "netflix-backend/server.js"
       },
       {
         "src": "/(.*)",

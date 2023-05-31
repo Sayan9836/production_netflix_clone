@@ -1,7 +1,6 @@
 const User = require("../models/UserModel");
-const JWT = require("jsonwebtoken");
-const jwtKey = 'e.com'
-
+require('dotenv').config();
+const jwtKey = process.env.JWT_SECRET;
 module.exports.createUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -9,42 +8,53 @@ module.exports.createUser = async (req, res) => {
     delete result.password;
     result = result.toObject();
 
-    JWT.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
-      if (err) {
-        res.send({ err: "error from backend" })
-      }
-      console.log(result);
-      res.send({ result, token });
-    })
-
+    // JWT.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+    //   if (err) {
+    //     res.send({ err: "error from backend" })
+    //   }
+    //   console.log(result);
+    //   res.send({ result, token });
+    // })
+                                                                                                             
   } catch (error) {
     console.log(error);
   }
 }
-
+                                                                                                            
 module.exports.LogUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(email);
     if (email && password) {
-      let user = await User.findOne({ email })
+      let user = await User.findOne({ email });
+      console.log(user);
       if (user) {
-        JWT.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
-          if (err) {
-            return res.status(500).send({ error: "Error signing JWT" });
-          }
-          res.setHeader('Content-Type', 'application/json');
-
-          res.status(200).send({user,token});
-        });
+        // JWT.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+        //   if (err) {
+        //     return res.status(500).send({ error: "Error signing JWT" });
+        //   }
+        //   res.setHeader('Content-Type', 'application/json');
+        //   console.log(user);
+        //   res.status(200).send({ user });
+        // });
+        res.send({ user })
+      } else {
+        res.status(400).send({ error: "User not found" });
       }
     } else {
-      res.status(400).send("user not found")
+      res.status(400).send({ error: "Invalid email or password" });
     }
+  } catch (error) {
+    res.status(500).send({ error: "Internal server error" });
   }
-   catch (error) {
-  res.status(404).send({ err: "error from the catch block of backend" })
 }
-}
+
+
+
+
+
+
+
 
 module.exports.addToLikedMovies = async (req, res) => {
   try {

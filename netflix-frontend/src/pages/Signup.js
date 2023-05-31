@@ -69,8 +69,8 @@ const Container = styled.div`
 
 const Signup = () => {
 
-    const navigate=useNavigate();
-    
+    const navigate = useNavigate();
+
     const initialState = {
         email: "",
         password: "",
@@ -88,8 +88,8 @@ const Signup = () => {
     const handleSignIn = async () => {
         try {
             const { email, password } = formValues;
-      
-            let result = await fetch(process.env.REACT_APP_BASE_URL`/register`, {
+
+            let result = await fetch(`${process.env.REACT_APP_BASE_URL}/register`, {
               method: 'post',
               body: JSON.stringify({ email, password }),
               headers: {
