@@ -2,23 +2,24 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
+const corsAnywhere = require('cors-anywhere');
 require('dotenv').config();
 const userRoutes = require("./routes/UserRoutes");
 const app = express();
-
-app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://main--mellow-torrone-a30106.netlify.app');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+app.use(corsAnywhere());
+// app.use(function(req, res, next) {
+//   res.setHeader('Access-Control-Allow-Origin', 'https://main--mellow-torrone-a30106.netlify.app');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.status(200).end();
-    return;
-  }
+//   if (req.method === 'OPTIONS') {
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+//     res.status(200).end();
+//     return;
+//   }
   
-  next();
-});
+//   next();
+// });
 
 app.use(cors());
 app.use(express.json());
