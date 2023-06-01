@@ -1,6 +1,6 @@
 const User = require("../models/UserModel");
 require('dotenv').config();
-const jwtKey = process.env.JWT_SECRET;
+// const jwtKey = process.env.JWT_SECRET;
 module.exports.createUser = async (req, res) => {
   try {
     const { email, password } = req.body;
