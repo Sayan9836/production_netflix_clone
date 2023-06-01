@@ -15,6 +15,7 @@ module.exports.createUser = async (req, res) => {
     //   console.log(result);
     //   res.send({ result, token });
     // })
+    res.setHeader('Content-Type', 'application/json');
     res.send(result);
                                                                                                              
   } catch (error) {
@@ -38,6 +39,7 @@ module.exports.LogUser = async (req, res) => {
         //   console.log(user);
         //   res.status(200).send({ user });
         // });
+        res.setHeader('Content-Type', 'application/json');
         res.send({ user })
       } else {
         res.status(400).send({ error: "User not found" });
@@ -93,6 +95,8 @@ module.exports.getLikedMovies = async (req, res) => {
     if (user) {
       res.setHeader('Content-Type', 'application/json');
       res.json({ msg: "success", movies: user.likedMovies });
+    }else{
+      res.json({msg:"no user found with this email"})
     }
   } catch (error) {
     console.log(error, "database problem");

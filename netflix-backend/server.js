@@ -9,6 +9,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  next();
+});
+
 const DB = process.env.MONGO_URI;
 mongoose
   .connect(DB, {
@@ -19,6 +27,8 @@ mongoose
   .catch((error) =>
     console.error("Error connecting to MongoDB Atlas:", error)
   );
+
+
 
 
 app.use(express.static(path.resolve(__dirname, 'netflix-frontend/build')))
