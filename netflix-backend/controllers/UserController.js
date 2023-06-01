@@ -15,6 +15,7 @@ module.exports.createUser = async (req, res) => {
     //   console.log(result);
     //   res.send({ result, token });
     // })
+    res.send(result);
                                                                                                              
   } catch (error) {
     console.log(error);
