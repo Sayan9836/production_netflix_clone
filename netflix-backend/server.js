@@ -23,7 +23,7 @@ app.use(corsAnywhere());
 
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({extended:true}))
 const DB = process.env.MONGO_URI;
 mongoose
   .connect(DB, {
