@@ -91,10 +91,10 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    // const user=JSON.parse(localStorage.getItem('user'));
-    // if(user){
-    //   setEmail(user.email);
-    // }
+    const user=JSON.parse(localStorage.getItem('user'));
+    if(user){
+      setEmail(user.email);
+    }
 
   },[email])
 
