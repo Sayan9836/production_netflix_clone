@@ -19,10 +19,10 @@ const Netflix = () => {
 
 
   useEffect(() => {
-    const user=localStorage.getItem('user');
-    if(!user){
-     navigate("/login");
-    }
+    // const user=localStorage.getItem('user');
+    // if(!user){
+    //  navigate("/login");
+    // }
     dispatch(getGenres())
   }, [])
 
