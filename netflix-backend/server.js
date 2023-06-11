@@ -25,17 +25,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
-
-
-
-app.use(express.static(path.resolve(__dirname, '../netflix-frontend/build')))
-
-app.use("/api/user", userRoutes);
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './netflix-frontend/build', 'index.html'))
-});
-
 const DB = process.env.MONGO_URI;
 mongoose
   .connect(DB, {
@@ -47,6 +36,14 @@ mongoose
     console.error("Error connecting to MongoDB Atlas:", error)
   );
 
+
+app.use(express.static(path.resolve(__dirname, "../netflix-frontend/build")))
+
+app.use("/api/user", userRoutes);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../netflix-frontend/build/index.html"))
+});
 
 
 
