@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import logo from '../assests/logo.png'
 import { Link, useNavigate } from 'react-router-dom';
 import { FaPowerOff } from 'react-icons/fa'
+import "../pages/MovieDetail.css";
 const Container = styled.div`
  .scrolled{
     background-color:black;
@@ -55,6 +56,7 @@ const Container = styled.div`
 `;
 
 const Navbar = ({ isScrolled }) => {
+    const [isClick, setIsClick] = useState(false);
 
     const links = [
         { name: "Home", link: "/" },
@@ -64,7 +66,7 @@ const Navbar = ({ isScrolled }) => {
     ]
     const navigate = useNavigate();
 
-    const HandleLogOut=()=>{
+    const HandleLogOut = () => {
         localStorage.clear();
         navigate("/login");
     }
@@ -76,7 +78,7 @@ const Navbar = ({ isScrolled }) => {
                     <div className='brand flex a-center'>
                         <img src={logo} alt="logo" />
                     </div>
-                    <ul className='flex links'>
+                    <ul className={isClick?`flex links active`:`flex links`}>
                         {
                             links.map(({ name, link }) => {
                                 return (
@@ -88,12 +90,24 @@ const Navbar = ({ isScrolled }) => {
                         }
                     </ul>
                 </div>
-                <div className='right flex a-center'>
+                        <div className='hamburger click' onClick={() => setIsClick(!isClick)}>
+                            {
+                                !isClick ? (
+                                  <i class="fa-solid fa-bars"></i>
+                                ):(
+                                    <i class="fa-solid fa-xmark"></i>
+                                )
+
+                            }
+                            
+                        </div>
+                
+
+                <div className='right flex a-center vanish'>
                     <button onClick={HandleLogOut}>
-                        <FaPowerOff title='LogOut'/>
+                        <FaPowerOff title='LogOut' />
                     </button>
                 </div>
-
 
             </nav>
         </Container>

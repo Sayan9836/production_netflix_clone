@@ -87,6 +87,7 @@ const Container = styled.div`
 export default React.memo(function Card({ movieData, isLiked = false }) {
   const [isHovered, setIsHovered] = useState(false);
   const [email, setEmail] = useState(undefined);
+  const [count,setCount]=useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -116,6 +117,9 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
     isLiked = false;
   };
 
+  const HandleLikeMovie =async(id)=>{
+  }
+    
   return (
     <Container
       onMouseEnter={() => setIsHovered(true)}
@@ -145,7 +149,7 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
                   title="play"
                   onClick={() => navigate("/player")}
                 />
-                <RiThumbUpLine title="Like" />
+                <RiThumbUpLine title="Like" onClick={()=>HandleLikeMovie(movieData.id)}/>
                 <RiThumbDownFill title="Dislike" />
                 {isLiked ? (
                   <BsCheck
@@ -170,6 +174,7 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
                 ))}
               </ul>
             </div>
+            <p>{count}</p>
           </div>
         </div>
       )}

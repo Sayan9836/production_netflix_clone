@@ -23,7 +23,7 @@ const Container = styled.div`
       .form{
           padding: 2rem;
           background-color:#000000b0;
-          width: 25vw;
+          width: max(20rem,25vw);
           gap: 2rem;
           color: white;
           .container {
@@ -74,13 +74,13 @@ const Login = () => {
   const handleLogIn = async (e) => {
     try {
       const { email, password } = formValues;
-                                                                                                     
+
       let result = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
         method: 'post',
         body: JSON.stringify({ email, password }),
         headers: {
           'content-Type': 'application/json'
-        }          
+        }
       });
       result = await result.json();
       console.log(result);
@@ -93,7 +93,7 @@ const Login = () => {
       }
 
     } catch (error) {
-      console.log(error,"error from frontend");
+      console.log(error, "error from frontend");
     }
   };
 

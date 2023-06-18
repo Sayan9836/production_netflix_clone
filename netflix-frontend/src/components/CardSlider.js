@@ -7,13 +7,13 @@ export default React.memo(function CardSlider({ data, title }) {
 
 
     const Container = styled.div`
+   
      width:max-content;
+     margin:auto;
      gap:1rem;
      position: relative;
      padding: 2rem 0;
-     h1 {
-        margin-left:50px
-     }
+
      @media (max-width:55em){
         h1{
             text-align:center;
@@ -26,8 +26,8 @@ export default React.memo(function CardSlider({ data, title }) {
         .slider{
             position:relative;
             width:100%;
+            margin-left:30px;
             gap:1rem;
-            margin-left:50px;
             border-radius: 6px;
             background: #eee;
             padding: 1rem;
@@ -59,6 +59,7 @@ export default React.memo(function CardSlider({ data, title }) {
             @media (max-width: 39em) {
                 background: #000;
                 display:grid !important;
+                margin:auto;
                 grid-template-columns:repeat(1,1fr)
             }
         }

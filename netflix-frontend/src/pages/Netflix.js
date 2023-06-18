@@ -9,8 +9,13 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGenres, getMovies } from '../store';
 import Slider from '../components/Slider';
+import "./MovieDetail.css"
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+import { Link } from 'react-router-dom';
 const Netflix = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [popularMovies,setpopularMovies]=useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.netflix.movies)
@@ -19,12 +24,18 @@ const Netflix = () => {
 
 
   useEffect(() => {
-    const user=localStorage.getItem('user');
-    if(!user){
-     navigate("/login");
+    const user = localStorage.getItem('user');
+    if (!user) {
+      navigate("/login");
     }
     dispatch(getGenres())
   }, [])
+
+  useEffect(() => {
+    fetch("https://api.themoviedb.org/3/movie/popular?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US")
+        .then(res => res.json())
+        .then(data => setpopularMovies(data.results))
+}, [])
 
   useEffect(() => {
     if (generesLoaded) {
@@ -36,7 +47,7 @@ const Netflix = () => {
     setIsScrolled(window.scrollY === 0 ? false : true);
     return () => (window.onscroll = null);
   }
-    
+
   const Container = styled.div`
    background-color:black;
    .hero {
@@ -89,8 +100,8 @@ const Netflix = () => {
   return (
     <Container>
       <Navbar isScrolled={isScrolled} />
-      <div className="hero">
-        <img src={backgroundImg} alt="bg-img" className="background-image" />
+      <div className="poster">
+        {/* <img src={backgroundImg} alt="bg-img" className="background-image" />
         <div className="container">
           <div className="logo">
             <img src={MovieLogo} alt="Movie Logo" />
@@ -103,7 +114,36 @@ const Netflix = () => {
               <AiOutlineCiCircle /> More info
             </button>
           </div>
-        </div>
+        </div> */}
+        <Carousel
+          showThumbs={false}
+          autoPlay={true}
+          transitionTime={3}
+          infiniteLoop={true}
+          showStatus={false}
+
+        >
+          {
+            popularMovies.map((movie) => (
+              <Link style={{ textDecoration: "none", color: "white" }} to={`/movie/${movie.id}`}>
+                <div className="posterImage">
+                  <img src={`https://image.tmdb.org/t/p/original${movie && movie.backdrop_path}`} alt="abc" />
+                </div>
+                <div className="posterImage__overlay">
+                  <div className="posterImage__title">{movie ? movie.original_title : ""}</div>
+                  <div className="posterImage__runtime">
+                    {movie ? movie.release_date : ""}
+                    <span className="posterImage__rating">
+                      {movie ? movie.vote_average : ""}
+                      <i className="fa-solid fa-star" />{" "}
+                    </span>
+                  </div>
+                  <div className="posterImage__description">{movie ? movie.overview : ""}</div>
+                </div>
+              </Link>
+            ))
+          }
+        </Carousel>
       </div>
       <Slider movies={movies} />
     </Container>
