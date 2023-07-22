@@ -138,7 +138,7 @@ const Netflix = () => {
                       <i className="fa-solid fa-star" />{" "}
                     </span>
                   </div>
-                  <div className="posterImage__description">{movie ? movie.overview : ""}</div>
+                  <div className="posterImage__description">{movie ? movie.overview.slice(0,200) : ""}</div>
                 </div>
               </Link>
             ))

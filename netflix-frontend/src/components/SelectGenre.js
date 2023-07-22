@@ -4,23 +4,22 @@ import { fetchDataByGenre } from '../store';
 import styled from 'styled-components';
 
 const SelectGenre = ({ genres, type }) => {
-    const dispatch = useDispatch();
-    const Select = styled.select`
+  const dispatch = useDispatch();
+  const Select = styled.select`
     margin-left: 5rem;
     cursor: pointer;
     font-size: 1.4rem;
     background-color: rgba(0, 0, 0, 0.4);
     color: white;
   `;
-    return (
-        <Select
+  return (
+      <Select
         className="flex"
         onChange={(e) => {
           dispatch(
             fetchDataByGenre({
-              genres,
-              genre: e.target.value, 
-              type, 
+              genre: e.target.value,
+              type,
             })
           );
         }}
@@ -33,7 +32,8 @@ const SelectGenre = ({ genres, type }) => {
           );
         })}
       </Select>
-    )
+  )
 }
-
+  
 export default SelectGenre
+  

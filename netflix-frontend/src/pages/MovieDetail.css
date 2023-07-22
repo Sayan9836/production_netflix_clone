@@ -162,6 +162,7 @@
     margin: auto;
     display: block;
     width: 100%;
+    height: 100%;
 }
 
 .posterImage__overlay {
@@ -214,6 +215,7 @@
 
 @media screen and (max-width:40em) {
 
+
     .links {
         flex-direction: column;
         justify-content: center;
@@ -251,5 +253,27 @@
         transition: 0.3s ease;
         background-color: #3e3e3e;
     }
+
+    .posterImage__description {
+        width: 100%;
+    }
+
+    .posterImage__title {
+        font-size: 2rem;
+        width: 100%;
+        font-weight: 700;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .posterImage__runtime {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .posterImage__rating {
+        margin-left: 1rem;
+    }
+
+
 
 }
