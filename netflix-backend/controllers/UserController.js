@@ -1,53 +1,67 @@
 const User = require("../models/UserModel");
 require('dotenv').config();
-// const jwtKey = process.env.JWT_SECRET;
+const jwt = require("jsonwebtoken");
+const jwtKey = process.env.JWT_SECRET;
+const signToken = (userId) => jwt.sign({ userId }, jwtKey)
+
 module.exports.createUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    let result = await User.create({ email, password, likedMovies: [] });
-    delete result.password;
-    result = result.toObject();
+    console.log(email);
 
-    // JWT.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
-    //   if (err) {
-    //     res.send({ err: "error from backend" })
-    //   }
-    //   console.log(result);
-    //   res.send({ result, token });
-    // })
-    res.setHeader('Content-Type', 'application/json');
-    res.send(result);
-                                                                                                             
+    const existing_user = await User.findOne({ email: email });
+    if (existing_user) {
+      res.status(400).json({
+        status: "error",
+        message: "Email is already in use ,Please Login"
+      })
+    } else {
+      const new_user = await User.create({ email, password, likedMovies: [] });
+      // result = result.toObject();
+
+      const token = signToken(new_user._id)
+      console.log(token, "this is token");
+      // res.setHeader('Content-Type', 'application/json');
+      res.status(200).json({ new_user, token });
+    }
+
   } catch (error) {
     console.log(error);
   }
 }
-                                                                                                            
+
 module.exports.LogUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email);
-    if (email && password) {
-      let user = await User.findOne({ email });
-      console.log(user);
-      if (user) {
-        // JWT.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
-        //   if (err) {
-        //     return res.status(500).send({ error: "Error signing JWT" });
-        //   }
-        //   res.setHeader('Content-Type', 'application/json');
-        //   console.log(user);
-        //   res.status(200).send({ user });
-        // });
-        res.setHeader('Content-Type', 'application/json');
-        res.send({ user })
-      } else {
-        res.status(400).send({ error: "User not found" });
-      }
-    } else {
-      res.status(400).send({ error: "Invalid email or password" });
+    if (!email || !password) {
+      res.status(400).json({
+        status: "error",
+        message: "both email and password are required"
+      })
     }
+
+    const user = await User.findOne({ email: email });
+
+    if (!user || !(await user.correctPassword(password, user.password))) {
+      return res.status(400).json({
+        status: "error",
+        message: "Email or password is incorrect"
+      })
+    }
+      // res.setHeader('Content-Type', 'application/json');
+
+      const token = signToken(user._id);
+      console.log(user);
+
+      res.status(200).json({
+        user,
+        status: "sucess",
+        message: "Logged in successfully",
+        token,
+      })
+    
   } catch (error) {
+    console.log(error);
     res.status(500).send({ error: "Internal server error" });
   }
 }
@@ -79,7 +93,7 @@ module.exports.addToLikedMovies = async (req, res) => {
           }
         );
       } else {
-        res.setHeader('Content-Type', 'application/json');
+        // res.setHeader('Content-Type', 'application/json');
         return res.json({ msg: "Movie already added to likedMovies" });
       }
     }
@@ -93,10 +107,10 @@ module.exports.getLikedMovies = async (req, res) => {
     const { email } = req.params;
     const user = await User.findOne({ email });
     if (user) {
-      res.setHeader('Content-Type', 'application/json');
+      // res.setHeader('Content-Type', 'application/json');
       res.json({ msg: "success", movies: user.likedMovies });
-    }else{
-      res.json({msg:"no user found with this email"})
+    } else {
+      res.json({ msg: "no user found with this email" })
     }
   } catch (error) {
     console.log(error, "database problem");
@@ -111,20 +125,24 @@ module.exports.removeFromLikedMovies = async (req, res) => {
       const movies = user.likedMovies;
       const movieIndex = movies.findIndex(({ id }) => id === movieId);
       if (!movieIndex) {
-        res.status(400).send({ msg: "Movie not found" });
+        res.status(400).json({ msg: "Movie not found" });
+      } else {
+        movies.splice(movieIndex, 1);
+        await User.findByIdAndUpdate(
+          user._id,
+          {
+            likedMovies: movies,
+          },
+          { new: true }
+        );
+        // res.setHeader('Content-Type', 'application/json');
+        return res.json({ msg: "deleted", movies });
       }
-      movies.splice(movieIndex, 1);
-      await User.findByIdAndUpdate(
-        user._id,
-        {
-          likedMovies: movies,
-        },
-        { new: true }
-      );
-      res.setHeader('Content-Type', 'application/json');
-      return res.json({ msg: "deleted", movies });
     }
   } catch (error) {
     return res.json({ msg: "Error deleting movie from backend" });
   }
 };
+
+
+

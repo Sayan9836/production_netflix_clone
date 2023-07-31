@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
-const corsAnywhere = require('cors-anywhere');
+// const corsAnywhere = require('cors-anywhere');
 require('dotenv').config();
 const userRoutes = require("./routes/UserRoutes");
 const app = express();
@@ -28,6 +28,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
@@ -54,7 +55,6 @@ app.get("*", (req, res) => {
 
 
 const port =process.env.PORT|| 8000;
-
 app.listen(port, () => {
   console.log(`server is running on ${port}`);
 });
