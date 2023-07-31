@@ -3,14 +3,14 @@ import { API_KEY, TMDB_BASE_URL } from "../utils/constant";
 
 import axios from "axios";
 
-
-
-
 const initialState = {
 
     movies: [],
     generesLoaded: false,
     genres: [],
+    user:null,
+    token:"",
+    error:false,
 };
 
 const createArrayFromRawData = (array, moviesArray, genres) => {
@@ -72,8 +72,40 @@ export const fetchDataByGenre = createAsyncThunk("netflix/moviesByGenres", async
 
 const BaseUrl=process.env.REACT_APP_BASE_URL
 
+export const RegisterUser = createAsyncThunk("netflix/register", async (formValues) => {
+    const data = await axios.post(`${BaseUrl}/register`,{
+        ...formValues
+    },{
+        headers: {
+            "Content-Type":"application/json",
+        }
+    })
+    console.log(data);
+    if (data) {
+        return data;
+    }
+})
+
+export const LogInUser = createAsyncThunk("netflix/login", async (formValues) => {
+    const data = await axios.post(`${BaseUrl}/login`,{
+        ...formValues
+    },{
+        headers: {
+            "Content-Type":"application/json",
+        }
+    })
+    console.log(data,"from LoginUser");
+    if (data) {
+        return data;
+    }
+})
+
 export const getUserLikedMovies = createAsyncThunk("netflix/getLiked", async (email) => {
-    const { data: { movies } } = await axios.get(`${BaseUrl}/liked/${email}`);
+    const { data: { movies } } = await axios.get(`${BaseUrl}/liked/${email}`,{
+        headers:{
+             authorization: JSON.parse(localStorage.getItem('token'))
+        },
+    });
     console.log(movies);
     return movies;
 })
@@ -82,6 +114,11 @@ export const getUserLikedMovies = createAsyncThunk("netflix/getLiked", async (em
 export const removeFromLikedMovies = createAsyncThunk("netflix/removeLiked", async ({ email, movieId }) => {
     const { data: { movies } } = await axios.put(`${BaseUrl}/remove`, {
         email, movieId
+    },{
+        headers:{
+            'content-Type':'application/json',
+             authorization: JSON.parse(localStorage.getItem('token'))
+          },
     });
     return movies;
 })
@@ -106,13 +143,28 @@ const NetflixSlice = createSlice({
         });
         builder.addCase(removeFromLikedMovies.fulfilled, (state, action) => {
             state.movies = action.payload
-        })
-        // builder.addCase(createUser.fulfilled, (state, action) => {
-        //     state.currentUser = action.payload
-        // })
-        // builder.addCase(LogUser.fulfilled,(state,action)=>{
-        //     state.currentUser=action.payload
-        // })
+        });
+        builder.addCase(RegisterUser.fulfilled, (state, action) => {
+            state.user=action.payload.data.new_user
+            state.token = action.payload.data.token 
+            localStorage.setItem('user',JSON.stringify(state.user)); 
+            localStorage.setItem('token',JSON.stringify(state.token)); 
+            window.location.href = "/" 
+        });
+        builder.addCase(RegisterUser.rejected,(state,action) => {
+            state.error=true;
+        });
+        builder.addCase(LogInUser.fulfilled,(state,action)=>{
+            state.user = action.payload.data.user
+            state.token = action.payload.data.token 
+            localStorage.setItem('user',JSON.stringify(state.user)); 
+            localStorage.setItem('token',JSON.stringify(state.token)); 
+            window.location.href = "/" 
+        });
+        builder.addCase(LogInUser.rejected,(state,action) => {
+            state.error= true;
+        });
+
     },
 });
 

@@ -87,7 +87,6 @@ const Container = styled.div`
 export default React.memo(function Card({ movieData, isLiked = false }) {
   const [isHovered, setIsHovered] = useState(false);
   const [email, setEmail] = useState(undefined);
-  const [count,setCount]=useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -106,6 +105,11 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
       await axios.post(`${process.env.REACT_APP_BASE_URL}/add`, {
         email,
         data: movieData,
+      },{
+        headers:{
+          'content-Type':'application/json',
+           authorization: JSON.parse(localStorage.getItem('token'))
+        },
       });
     } catch (error) {
       console.log({ msg: "frontend-error in adding to List" });
@@ -147,7 +151,6 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
               <div className="controls flex">
                 <IoPlayCircleSharp
                   title="play"
-                  onClick={() => navigate("/player")}
                 />
                 <RiThumbUpLine title="Like" onClick={()=>HandleLikeMovie(movieData.id)}/>
                 <RiThumbDownFill title="Dislike" />
@@ -161,7 +164,6 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
                 )}
               </div>
               <div className="info">
-                {/* <BiChevronDown title="More info" /> */}
                 <Link to={`/detail/${movieData.media_type}/${movieData.id}`}>
                   <GiArmoredBoomerang title="More info" />
                 </Link>
@@ -169,12 +171,11 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
             </div>
             <div className="genres flex">
               <ul className="flex">
-                {movieData.genres.map((genre) => (
-                  <li>{genre}</li>
+                {movieData.genres.map((genre,index) => (
+                  <li key={index}>{genre}</li>
                 ))}
               </ul>
             </div>
-            <p>{count}</p>
           </div>
         </div>
       )}

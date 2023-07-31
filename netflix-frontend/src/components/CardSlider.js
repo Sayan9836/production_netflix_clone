@@ -2,7 +2,6 @@ import React from 'react'
 import Card from './Card'
 import styled from 'styled-components';
 
-
 export default React.memo(function CardSlider({ data, title }) {
 
 

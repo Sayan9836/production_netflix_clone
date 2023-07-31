@@ -4,6 +4,8 @@ import BackgroundImage from '../components/BackgroundImage';
 import Header from '../components/Header';
 
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RegisterUser } from '../store';
 
 const Container = styled.div`
   position:relative;
@@ -68,15 +70,23 @@ const Container = styled.div`
 
 
 const Signup = () => {
-
     const navigate = useNavigate();
-
     const initialState = {
         email: "",
         password: "",
     }
     const [showPassword, setShowPassword] = useState(false);
     const [formValues, setFormValues] = useState(initialState);
+    const dispatch = useDispatch();
+    const isError = useSelector((state)=>state.netflix.error);
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        const token = localStorage.getItem('token');
+        if (user && token) {
+            navigate("/");
+        }
+    }, [])
 
     const FormHandler = (e) => {
         setFormValues({
@@ -85,39 +95,50 @@ const Signup = () => {
         })
     }
 
-    const handleSignIn = async () => {
+    const handleSignIn = async (e) => {
+        e.preventDefault();
         try {
             const { email, password } = formValues;
+            if (!email || !password) {
 
-            let result = await fetch(`${process.env.REACT_APP_BASE_URL}/register`, {
-              method: 'post',
-              body: JSON.stringify({ email, password }),
-              headers: {
-                'content-Type': 'application/json'
-              }
-            });
-            result = await result.json();
-      
-            if (result) {
-              localStorage.setItem('user', JSON.stringify(result.result));
-              navigate("/");
             } else {
-              alert("please enter correct details")
+                dispatch(RegisterUser(formValues));
             }
-      
-          } catch (error) {
+
+
+
+            //     let result = await fetch(`${process.env.REACT_APP_BASE_URL}/register`, {
+            //       method: 'post',
+            //       body: JSON.stringify({ email, password }),
+            //       headers: {
+            //         'content-Type': 'application/json'
+            //       }
+            //     });
+            //     result = await result.json();
+
+            //     if (result) {
+            //       localStorage.setItem('user', JSON.stringify(result.result));
+            //       navigate("/");
+            //     } else {
+            //       alert("please enter correct details")
+            //     }
+
+
+        } catch (error) {
             console.log(error);
-          }
+        }
+
+
     };
- 
+
 
 
     return (
         <Container>
             <BackgroundImage />
             <div className='content'>
-                <Header />
-                <div className='body flex column a-center j-center'>
+                <Header login />
+                <form onSubmit={handleSignIn} className='body flex column a-center j-center'>
                     <div className='text flex column'>
                         <h1>Unlimited movies,TV shows and more</h1>
                         <h4>Watch anywhere. Cancel anytime.</h4>
@@ -126,12 +147,13 @@ const Signup = () => {
                         </h6>
                     </div>
                     <div className='form'>
-                        <input type="email" placeholder='Email Address' name='email' value={formValues.email} onChange={FormHandler} />
+                        <input required type="email" placeholder='Email Address' name='email' value={formValues.email} onChange={FormHandler} />
                         {
                             showPassword && (
-                                <input type='password' placeholder='Password' value={formValues.password} name='password' onChange={FormHandler} />
+                                <input required type='password' placeholder='Password' value={formValues.password} name='password' onChange={FormHandler} />
                             )
                         }
+                        {isError && <span style={{ color: "red", fontSize: "15px" }}>Email is already in use ,Please Login</span>}
                         {
                             !showPassword && (
 
@@ -139,8 +161,8 @@ const Signup = () => {
                             )
                         }
                     </div>
-                    <button  onClick={handleSignIn}>Sign Up</button>
-                </div>
+                    <button type='submit'>Sign Up</button>
+                </form>
             </div>
         </Container>
     )

@@ -5,7 +5,6 @@ const Slider = ({movies,isTvSeries}) => {
     const getMoviesFromRange=(from,to)=>{
         return movies?.slice(from,to);
     }
-    console.log(movies);
 
   return (
     <div className='slider-container'>
