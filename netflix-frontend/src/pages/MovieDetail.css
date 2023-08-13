@@ -18,11 +18,14 @@
 }
 
 .movie__detail {
+    display: flex;
     align-items: center;
     width: 75%;
     display: flex;
     position: relative;
     bottom: 225px;
+    word-break: break-all;
+    margin-bottom: 12rem;
 }
 
 .movie__detailLeft {
@@ -87,11 +90,18 @@
 }
 
 .movie__links {
+    display: flex; 
+    justify-content: space-evenly;
+    align-items: center;
     position: relative;
     bottom: 120px;
     display: flex;
-    justify-content: space-between;
     width: 75%;
+}
+.buttons_links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 }
 
 .movie__heading {
@@ -129,6 +139,7 @@
     justify-content: center;
     align-items: flex-end;
     margin-bottom: 4rem;
+    flex-wrap: wrap;
 }
 
 
@@ -213,6 +224,31 @@
     flex-direction: column;
 }
 
+.headers_signup{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    word-break: break-all;
+}
+
+.headers_signup h1 {
+    font-size: 3rem;
+}
+.headers_signup h4{
+    font-size: 1.5rem;
+}
+.headers_signup h6{
+    font-size: 1rem;
+}
+
+.header_container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+
 @media screen and (max-width:40em) {
 
 
@@ -273,7 +309,56 @@
     .posterImage__rating {
         margin-left: 1rem;
     }
+    .headers_signup h1{
+        font-size: 1.5rem;
+    }
+    .headers_signup h4{
+        font-size: 1rem;
+    }
+    .headers_signup h6{
+        font-size: 0.8rem;
+    }
 
+    .movie__intro{
+        display: none;
+    }
 
+    .movie__detail {
+        border: 2px solid red;
+       top: 0;
+        flex-direction: column;
+        word-wrap: break-word;
+        width: 100%;
+    }
+    .movie__detailLeft{
+        margin: 0;
+    }
+    .movie__posterBox img{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
 
+    .movie__genres{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    .movie_detailRight{
+        padding: 0.5rem;
+    }
+    .movie__links{
+
+        flex-direction: column;
+        gap: 2rem;
+    } 
+    .buttons_links{
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+    .movie__name{
+        font-size: 2rem;
+    }
 }

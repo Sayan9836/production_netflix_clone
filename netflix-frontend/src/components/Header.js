@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import logo from '../assests/logo.png'
 import { useNavigate } from 'react-router-dom'
 const Container = styled.div`
- padding:0 4rem;
  .logo {
     img {
         height:5rem;
@@ -23,7 +22,7 @@ const Container = styled.div`
 const Header = (props) => {
   const navigate = useNavigate();
   return (
-    <Container className='flex a-center j-between'>
+    <Container className='header_container'>
       <div className='logo'>
         <img srcSet={logo} alt="logo" />
       </div>

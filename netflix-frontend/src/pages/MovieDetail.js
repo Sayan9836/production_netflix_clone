@@ -49,7 +49,7 @@ const MovieDetail = () => {
             />
           </div>
         </div>
-        <div className="movie__detailRight">
+        <div className="movie_detailRight">
           <div className="movie__detailRightTop">
             <div className="movie__name">
               {currentMovieDetail ? currentMovieDetail.original_title : ""}
@@ -94,6 +94,7 @@ const MovieDetail = () => {
       </div>
       <div className="movie__links">
         <div className="movie__heading">Useful Links</div>
+        <div className="buttons_links">
         {currentMovieDetail && currentMovieDetail.homepage && (
           <a
             href={currentMovieDetail.homepage}
@@ -122,6 +123,7 @@ const MovieDetail = () => {
             </p>
           </a>
         )}
+        </div>
       </div>
       <div className="movie__heading">Production companies</div>
       <div className="movie__production">
