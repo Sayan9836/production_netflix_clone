@@ -104,7 +104,7 @@ const Login = () => {
     //     navigate("/");
     //   } else {
     //     alert("please enter correct details")
-    //   }
+    //   } 
 
     } catch (error) {
       console.log(error, "error from frontend");
