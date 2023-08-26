@@ -78,7 +78,7 @@ const Navbar = ({ isScrolled }) => {
                     <div className='brand flex a-center'>
                         <img src={logo} alt="logo" />
                     </div>
-                    <ul className={isClick?`flex links active`:`flex links`}>
+                    <ul className={isClick ? `flex links active` : `flex links`}>
                         {
                             links.map(({ name, link }) => {
                                 return (
@@ -87,27 +87,38 @@ const Navbar = ({ isScrolled }) => {
 
                                 )
                             })
+
+
+
                         }
+                        <li className='logout_mobile' onClick={HandleLogOut}>
+                            <div>
+                            LogOut
+                            </div>
+                        </li>
                     </ul>
                 </div>
-                        <div className='hamburger click' onClick={() => setIsClick(!isClick)}>
-                            {
-                                !isClick ? (
-                                  <i class="fa-solid fa-bars"></i>
-                                ):(
-                                    <i class="fa-solid fa-xmark"></i>
-                                )
+                <div className='hamburger click' onClick={() => setIsClick(!isClick)}>
+                    {
+                        !isClick ? (
+                            <i class="fa-solid fa-bars"></i>
+                        ) : (
+                            <i class="fa-solid fa-xmark"></i>
+                        )
 
-                            }
-                            
-                        </div>
-                
+                    }
+
+                </div>
+
 
                 <div className='right flex a-center vanish'>
                     <button onClick={HandleLogOut}>
                         <FaPowerOff title='LogOut' />
                     </button>
                 </div>
+
+
+
 
             </nav>
         </Container>
