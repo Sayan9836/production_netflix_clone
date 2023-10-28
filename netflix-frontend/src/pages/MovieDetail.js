@@ -15,7 +15,7 @@ const MovieDetail = () => {
       `https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US`
     );
     setCurrentMovieDetail(data);
-
+   console.log(data.production_companies);
   };
   useEffect(()=>{
     const user=localStorage.getItem('user');
@@ -130,20 +130,36 @@ const MovieDetail = () => {
         {currentMovieDetail &&
           currentMovieDetail.production_companies &&
           currentMovieDetail.production_companies.map((company) => (
+            
             <>
-              {company.logo_path && (
+            
+              {company.logo_path ? (
                 <span className="productionCompanyImage">
                   <img
                     className="movie__productionComapany"
                     src={
                       "https://image.tmdb.org/t/p/original" + company.logo_path
                     }
-                    alt=""
+                    alt="production_image"
                   />
                   <span>{company.name}</span>
                 </span>
-              )}
+                
+              ) : (
+                <span className="productionCompanyImage">
+                <img
+                  className="movie__productionComapany"
+                  src={
+                    "https://image.tmdb.org/t/p/original" + "/hUzeosd33nzE5MCNsZxCGEKTXaQ.png"
+                  }
+                  alt="marvel"
+                />
+                <span>{'Frankestein Production House'}</span>
+              </span>
+              )
+            }
             </>
+            
           ))}
       </div>
     </div>

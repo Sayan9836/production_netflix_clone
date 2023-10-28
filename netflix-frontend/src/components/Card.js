@@ -11,8 +11,7 @@ import { useDispatch } from "react-redux";
 import {  removeFromLikedMovies } from "../store";
 import { toast } from "react-toastify";
 const Container = styled.div`
-  max-width: 230px;
-  width: 230px;
+  width: 100%;
   height: 100%;
   cursor: pointer;
   position: relative;
@@ -26,9 +25,10 @@ const Container = styled.div`
     position: absolute;
     z-index: 200;
     height: max-content;
-    width: 20rem;
+    width: 100%;
     top: -18vh;
     left: 0;
+    right: 0;
     border-radius: 0.3rem;
     box-shadow: rgba(0, 0, 0, 0.75) 0px 3px 10px;
     background-color: #181818;
@@ -82,6 +82,11 @@ const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 40em) {
+    width: 80vw;
+    margin-inline:auto;
+  }
 `;
 
 export default React.memo(function Card({ movieData, isLiked = false }) {
@@ -132,6 +137,7 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
       <img
         src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
         alt="movie"
+        loading="lazy"
       />
       {isHovered && (
         <div className="hover">
@@ -139,7 +145,6 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
             <img
               src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
               alt="indivitual-card"
-              onClick={() => navigate("/player")}
             />
             <p>{process.env.REACT_APP_LIKE_URL}</p>
           </div>

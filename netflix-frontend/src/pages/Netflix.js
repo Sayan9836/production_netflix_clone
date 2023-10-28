@@ -101,20 +101,7 @@ const Netflix = () => {
     <Container>
       <Navbar isScrolled={isScrolled} />
       <div className="poster">
-        {/* <img src={backgroundImg} alt="bg-img" className="background-image" />
-        <div className="container">
-          <div className="logo">
-            <img src={MovieLogo} alt="Movie Logo" />
-          </div>
-          <div className="buttons flex">
-            <button className="flex j-center a-center" onClick={() => navigate("/player")}>
-              <FaPlay /> play
-            </button>
-            <button className="flex j-center a-center">
-              <AiOutlineCiCircle /> More info
-            </button>
-          </div>
-        </div> */}
+
         <Carousel
           showThumbs={false}
           autoPlay={true}
@@ -125,7 +112,7 @@ const Netflix = () => {
         >
           {
             popularMovies.map((movie) => (
-              <Link style={{ textDecoration: "none", color: "white" }} to={`/movie/${movie.id}`}>
+              <div style={{ textDecoration: "none", color: "white" }} to={`/movie/${movie.id}`}>
                 <div className="posterImage">
                   <img src={`https://image.tmdb.org/t/p/original${movie && movie.backdrop_path}`} alt="abc" />
                 </div>
@@ -140,12 +127,15 @@ const Netflix = () => {
                   </div>
                   <div className="posterImage__description">{movie ? movie.overview.slice(0,200) : ""}</div>
                 </div>
-              </Link>
+              </div>
             ))
           }
         </Carousel>
+
       </div>
+
       <Slider movies={movies} />
+
     </Container>
   )
 }
