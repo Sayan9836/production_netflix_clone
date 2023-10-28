@@ -1,7 +1,8 @@
 import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_KEY, TMDB_BASE_URL } from "../utils/constant";
-
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 const initialState = {
 
@@ -80,7 +81,7 @@ export const RegisterUser = createAsyncThunk("netflix/register", async (formValu
             "Content-Type":"application/json",
         }
     })
-    console.log(data);
+    
     if (data) {
         return data;
     }
@@ -94,10 +95,8 @@ export const LogInUser = createAsyncThunk("netflix/login", async (formValues) =>
             "Content-Type":"application/json",
         }
     })
-    console.log(data,"from LoginUser");
-    if (data) {
-        return data;
-    }
+
+    return data;
 })
 
 export const getUserLikedMovies = createAsyncThunk("netflix/getLiked", async (email) => {
@@ -106,7 +105,6 @@ export const getUserLikedMovies = createAsyncThunk("netflix/getLiked", async (em
              authorization: JSON.parse(localStorage.getItem('token'))
         },
     });
-    console.log(movies);
     return movies;
 })
 
@@ -149,29 +147,37 @@ const NetflixSlice = createSlice({
             state.token = action.payload.data.token 
             localStorage.setItem('user',JSON.stringify(state.user)); 
             localStorage.setItem('token',JSON.stringify(state.token)); 
-            window.location.href = "/" 
+            window.location.href = '/';
         });
         builder.addCase(RegisterUser.rejected,(state,action) => {
             state.error=true;
+            toast.error('Email is already in use ,Please Login')
+            state.error = false;
         });
         builder.addCase(LogInUser.fulfilled,(state,action)=>{
             state.user = action.payload.data.user
             state.token = action.payload.data.token 
             localStorage.setItem('user',JSON.stringify(state.user)); 
             localStorage.setItem('token',JSON.stringify(state.token)); 
-            window.location.href = "/" 
+            window.location.href = '/';
         });
         builder.addCase(LogInUser.rejected,(state,action) => {
-            state.error= true;
+            state.error = true;
+            toast.error('Email or Password is incorrect');
+            state.error = false;            
         });
 
     },
 });
 
+
+
 export const store = configureStore({
     reducer: {
         netflix: NetflixSlice.reducer,
-    }
+    },
+
+
 })
 
                   

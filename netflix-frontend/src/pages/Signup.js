@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RegisterUser } from '../store';
+import { toast } from 'react-toastify';
 
 const Container = styled.div`
   position:relative;
@@ -69,7 +70,7 @@ const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [formValues, setFormValues] = useState(initialState);
     const dispatch = useDispatch();
-    const isError = useSelector((state)=>state.netflix.error);
+    const isError = useSelector((state) => state.netflix.error);
 
     useEffect(() => {
         const user = localStorage.getItem('user');
@@ -127,6 +128,23 @@ const Signup = () => {
     return (
         <Container>
             <BackgroundImage />
+            <div className='notice'>
+
+                <h3>NOTE:--</h3>
+
+                <marquee width='98%' hspace='100px' vspace='100px'>
+
+                    <p>{`This application is Deployed on render and Render spins down a Free web service 
+                         that goes 15 minutes without receiving inbound traffic. Render spins the service back up
+                         whenever it next receives a request to process. so,it will take 45 sec(approx)  to login/signup if you 
+                         are the first user to spin up the service from inactivity. this is the default Behavior 
+                         of render for free instance types Be patient!`}
+                    </p>
+
+                </marquee>
+
+            </div>
+
             <div className='content'>
                 <Header login />
                 <form onSubmit={handleSignIn} className='body flex column a-center j-center'>
@@ -144,7 +162,6 @@ const Signup = () => {
                                 <input required type='password' placeholder='Password' value={formValues.password} name='password' onChange={FormHandler} />
                             )
                         }
-                        {isError && <span style={{ color: "red", fontSize: "15px" }}>Email is already in use ,Please Login</span>}
                         {
                             !showPassword && (
 

@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LogInUser } from '../store';
+import { toast } from "react-toastify";
 
 
 const Container = styled.div`
@@ -57,21 +58,22 @@ const Container = styled.div`
 const Login = () => {
 
   const navigate = useNavigate();
+
   const initialState = {
     email: "",
     password: "",
   }
   const [formValues, setFormValues] = useState(initialState);
   const dispatch = useDispatch();
-  const isError = useSelector((state)=>state.netflix.error);
-  
-  useEffect(()=>{
+
+
+  useEffect(() => {
     const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
     if (user && token) {
-        navigate("/");
+      navigate("/");
     }
-},[])
+  }, [])
 
   const FormHandler = (e) => {
     setFormValues({
@@ -84,52 +86,67 @@ const Login = () => {
   const handleLogIn = async (e) => {
     e.preventDefault();
     try {
-      const { email, password } = formValues;
-      if (!email || !password) {
-      }else{
-        dispatch(LogInUser(formValues));
-      }
-    //   let result = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
-    //     method: 'post',
-    //     body: JSON.stringify({ email, password }),
-    //     headers: {
-    //       'content-Type': 'application/json'
-    //     }
-    //   });
-    //   result = await result.json();
-    //   console.log(result);
 
-    //   if (result) {
-    //     localStorage.setItem('user', JSON.stringify(result.user));
-    //     navigate("/");
-    //   } else {
-    //     alert("please enter correct details")
-    //   } 
+      const { email, password } = formValues;
+
+      if (!email || !password) {
+
+        toast.error("Email or password both are required")
+
+      } else {
+
+        dispatch(LogInUser(formValues));
+
+      }
 
     } catch (error) {
       console.log(error, "error from frontend");
     }
+
   };
 
 
   return (
     <Container>
       <BackgroundImage />
+
+      <div className='notice'>
+
+        <h3>NOTE:--</h3>
+
+        <marquee width='98%' hspace='100px' vspace='100px'>
+
+          <p>{`This application is Deployed on render and Render spins down a Free web service 
+               that goes 15 minutes without receiving inbound traffic. Render spins the service back up
+               whenever it next receives a request to process. so,it may take time to login/signup if you 
+               are the first user to spin up the service from inactivity. this is the default Behavior 
+               of render for free instance types Be patient!`}
+          </p>
+
+        </marquee>
+
+      </div>
+
       <div className='content'>
+
         <Header />
+
         <div className='form-container flex column a-center j-center'>
           <div className='form flex column a-center j-center'>
+
             <div className='title'>
               <h3>Login</h3>
             </div>
-              <form onSubmit={handleLogIn} className='container flex column'>
-                <input required type="email" placeholder='Email Address' name='email' value={formValues.email} onChange={FormHandler} />
-                <input required type='password' placeholder='Password' value={formValues.password} name='password' onChange={FormHandler} />
-                {isError && <span style={{color:"red", fontSize:"15px"}}>Email or Password is invalid</span>}
-                <button type='submit'>Log In</button>
-              </form>
+
+            <form onSubmit={handleLogIn} className='container flex column'>
+              <input required type="email" placeholder='Email Address' name='email' value={formValues.email} onChange={FormHandler} />
+              <input required type='password' placeholder='Password' value={formValues.password} name='password' onChange={FormHandler} />
+              <button type='submit'>Log In</button>
+            </form>
+
           </div>
         </div>
+
       </div>
     </Container>
   )
