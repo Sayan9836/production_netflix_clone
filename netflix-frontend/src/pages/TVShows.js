@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getGenres, getMovies } from '../store';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../utils/firebase';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import Slider from '../components/Slider';
@@ -40,11 +38,7 @@ const TVShows = () => {
     return () => (window.onscroll = null);
   }
 
-  onAuthStateChanged(auth,(Cuser)=>{
-    // if (Cuser) {
-    //   navigate('/')
-    // }
-  })
+
   const Container= styled.div`
    .data {
     margin-top:8rem;
