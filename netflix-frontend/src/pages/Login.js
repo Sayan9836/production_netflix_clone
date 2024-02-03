@@ -24,7 +24,6 @@ const Container = styled.div`
       height:85vh;
       .form_login{
          position: relative;
-          min-height: 60%;
           padding: 2rem;
           background-color:#000000b0;
           width: max(20rem,25vw);

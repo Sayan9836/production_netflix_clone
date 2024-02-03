@@ -444,9 +444,4 @@
   .form {
     width: 90vw !important;
   }
-
-  .form_login {
-    margin-top: 5rem;
-    min-height: 70% !important;
-  }
 }
