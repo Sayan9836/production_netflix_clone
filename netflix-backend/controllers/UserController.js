@@ -1,34 +1,39 @@
 const User = require("../models/UserModel");
-require('dotenv').config();
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const jwtKey = process.env.JWT_SECRET;
-const signToken = (userId) => jwt.sign({ userId }, jwtKey)
+const signToken = (userId) => jwt.sign({ userId }, jwtKey);
 
 module.exports.createUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email);
+
+    if (!email || !password) {
+      res.status(200).json({
+        status: "error",
+        message: "all fields are required",
+      });
+    }
 
     const existing_user = await User.findOne({ email: email });
     if (existing_user) {
       res.status(400).json({
         status: "error",
-        message: "Email is already in use ,Please Login"
-      })
+        message: "Email is already in use ,Please Login",
+      });
     } else {
       const new_user = await User.create({ email, password, likedMovies: [] });
       // result = result.toObject();
 
-      const token = signToken(new_user._id)
+      const token = signToken(new_user._id);
       console.log(token, "this is token");
       // res.setHeader('Content-Type', 'application/json');
       res.status(200).json({ new_user, token });
     }
-
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 module.exports.LogUser = async (req, res) => {
   try {
@@ -36,8 +41,8 @@ module.exports.LogUser = async (req, res) => {
     if (!email || !password) {
       res.status(400).json({
         status: "error",
-        message: "both email and password are required"
-      })
+        message: "both email and password are required",
+      });
     }
 
     const user = await User.findOne({ email: email });
@@ -45,33 +50,26 @@ module.exports.LogUser = async (req, res) => {
     if (!user || !(await user.correctPassword(password, user.password))) {
       return res.status(400).json({
         status: "error",
-        message: "Email or password is incorrect"
-      })
+        message: "Email or password is incorrect",
+      });
     }
-      // res.setHeader('Content-Type', 'application/json');
+    // res.setHeader('Content-Type', 'application/json');
 
-      const token = signToken(user._id);
-      console.log(user);
+    const token = signToken(user._id);
 
-      res.status(200).json({
-        user,
-        status: "sucess",
-        message: "Logged in successfully",
-        token,
-      })
-    
+    console.log(user);
+
+    res.status(200).json({
+      user,
+      status: "sucess",
+      message: "Logged in successfully",
+      token,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({ error: "Internal server error" });
   }
-}
-
-
-
-
-
-
-
+};
 
 module.exports.addToLikedMovies = async (req, res) => {
   try {
@@ -85,12 +83,11 @@ module.exports.addToLikedMovies = async (req, res) => {
         await User.findByIdAndUpdate(
           user._id,
           {
-            likedMovies: [...user.likedMovies, data],
+            $push: { likedMovies: data },
           },
           {
             new: true,
-
-          }
+          },
         );
       } else {
         // res.setHeader('Content-Type', 'application/json');
@@ -106,43 +103,41 @@ module.exports.getLikedMovies = async (req, res) => {
   try {
     const { email } = req.params;
     const user = await User.findOne({ email });
+    console.log("from backend=> ", user.likedMovies);
     if (user) {
       // res.setHeader('Content-Type', 'application/json');
       res.json({ msg: "success", movies: user.likedMovies });
     } else {
-      res.json({ msg: "no user found with this email" })
+      res.json({ msg: "no user found with this email" });
     }
   } catch (error) {
-    console.log(error, "database problem");
+    console.log(error, "Integernal server error");
   }
 };
 
 module.exports.removeFromLikedMovies = async (req, res) => {
   try {
     const { email, movieId } = req.body;
+    console.log(movieId);
     const user = await User.findOne({ email });
     if (user) {
-      const movies = user.likedMovies;
-      const movieIndex = movies.findIndex(({ id }) => id === movieId);
-      if (!movieIndex) {
+      let movies = user.likedMovies;
+      // const movieIndex = movies.findIndex(({ id }) => id === movieId);
+      if (!movieId) {
         res.status(400).json({ msg: "Movie not found" });
       } else {
-        movies.splice(movieIndex, 1);
-        await User.findByIdAndUpdate(
+        movies = await User.findByIdAndUpdate(
           user._id,
           {
-            likedMovies: movies,
+            $pull: { likedMovies: { id: movieId } },
           },
-          { new: true }
+          { new: true },
         );
-        // res.setHeader('Content-Type', 'application/json');
-        return res.json({ msg: "deleted", movies });
+        console.log(movies.likedMovies);
+        return res.json({ msg: "deleted", movies: movies.likedMovies });
       }
     }
   } catch (error) {
     return res.json({ msg: "Error deleting movie from backend" });
   }
 };
-
-
-
