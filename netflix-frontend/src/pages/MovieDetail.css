@@ -250,7 +250,7 @@
   flex-direction: column;
   gap: 0.5rem;
   text-align: center;
-  word-break: ;
+  word-break: break-all;
 }
 
 .headers_signup h1 {

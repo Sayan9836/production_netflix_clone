@@ -8,7 +8,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { GiArmoredBoomerang } from "react-icons/gi";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import {  removeFromLikedMovies } from "../store";
+import { removeFromLikedMovies } from "../store";
 import { toast } from "react-toastify";
 const Container = styled.div`
   width: 100%;
@@ -85,7 +85,7 @@ const Container = styled.div`
 
   @media (max-width: 40em) {
     width: 80vw;
-    margin-inline:auto;
+    margin-inline: auto;
   }
 `;
 
@@ -94,28 +94,31 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
   const [email, setEmail] = useState(undefined);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  console.log(movieData);
 
-  useEffect(()=>{
-    const user=JSON.parse(localStorage.getItem('user'));
-    if(user){
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
       setEmail(user.email);
     }
-
-  },[email])
-
+  }, [email]);
 
   const addToList = async () => {
-    toast.success("Item Added successfully")
+    toast.success("Item Added successfully");
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/add`, {
-        email,
-        data: movieData,
-      },{
-        headers:{
-          'content-Type':'application/json',
-           authorization: JSON.parse(localStorage.getItem('token'))
+      await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/add`,
+        {
+          email,
+          data: movieData,
         },
-      });
+        {
+          headers: {
+            "content-Type": "application/json",
+            authorization: JSON.parse(localStorage.getItem("token")),
+          },
+        },
+      );
     } catch (error) {
       console.log({ msg: "frontend-error in adding to List" });
     }
@@ -126,9 +129,8 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
     isLiked = false;
   };
 
-  const HandleLikeMovie =async(id)=>{
-  }
-    
+  const HandleLikeMovie = async (id) => {};
+
   return (
     <Container
       onMouseEnter={() => setIsHovered(true)}
@@ -154,10 +156,11 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
             </h3>
             <div className="icons flex j-between">
               <div className="controls flex">
-                <IoPlayCircleSharp
-                  title="play"
+                <IoPlayCircleSharp title="play" />
+                <RiThumbUpLine
+                  title="Like"
+                  onClick={() => HandleLikeMovie(movieData.id)}
                 />
-                <RiThumbUpLine title="Like" onClick={()=>HandleLikeMovie(movieData.id)}/>
                 <RiThumbDownFill title="Dislike" />
                 {isLiked ? (
                   <BsCheck
@@ -176,7 +179,7 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
             </div>
             <div className="genres flex">
               <ul className="flex">
-                {movieData.genres.map((genre,index) => (
+                {movieData.genres.map((genre, index) => (
                   <li key={index}>{genre}</li>
                 ))}
               </ul>
